@@ -1,0 +1,5 @@
+.idea/
+docker_commands
+udacity-c3-deployment/k8s/env-*
+udacity-c3-deployment/k8s/aws-secret.yaml
+udacity-c3-deployment/k8s/pod-example

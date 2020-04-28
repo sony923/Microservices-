@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: backend-user
+  name: backend-user
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        service: backend-user
+    spec:
+      containers:
+      - image: pierreedouardchaix/udacity-c3-restapi-user
+        name: backend-user 
+        imagePullPolicy: Always  
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"      
+        env:
+        - name: URL
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: URL 
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: JWT_SECRET
+        - name: UDACITY_CLOUDDEVELOPER_RDS_DBNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: UDACITY_CLOUDDEVELOPER_RDS_DBNAME
+        - name: UDACITY_CLOUDDEVELOPER_RDS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: UDACITY_CLOUDDEVELOPER_RDS_HOST
+        - name: UDACITY_CLOUDDEVELOPER_RDS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: UDACITY_CLOUDDEVELOPER_RDS_PASSWORD
+        - name: UDACITY_CLOUDDEVELOPER_RDS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: UDACITY_CLOUDDEVELOPER_RDS_USERNAME
+      restartPolicy: Always
+
+
